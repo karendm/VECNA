@@ -1,31 +1,31 @@
-#===================================#
-#									#
-#	scope check script				#
-#	author: karen miller			#
-#	date: august 31, 2022			#
-#									#
-#===================================#
+#=======================================#
+#					#
+#	scope check script		#
+#	author: karen miller		#
+#	date: august 31, 2022		#
+#					#
+#=======================================#
 
-#===================================================================#
-#																	#
-#	usage: load this script into cobalt strike						#
+#===============================================================================#
+#										#
+#	usage: load this script into cobalt strike				#
 #	run 'load_scope /path/to/ips.txt' to load in-scope IPs			#
 #	run 'print_scope' to print list of IPs that are loaded			#
 #	beacons will be labelled/highlighted as they come in 			#
-#	out-of-scope beacons will be highlighted in red and labelled 	#
-#	in-scope beacons will be highlighted in green					#
-#																	#
-#===================================================================#
+#	out-of-scope beacons will be highlighted in red and labelled 		#
+#	in-scope beacons will be highlighted in green				#
+#										#
+#===============================================================================#
 
-#===================================================================#
-#																	#
-#	notes: in-scope IP list should be line-delimited				#
-#	all beacons will be labelled out-of-scope until IPs are loaded	#
-#	loading a new IP list will overwrite all previously loaded IPs 	#
-#	reloading the script will require 'load_scope' to be run again	#
-#	this script assumes a single, accurate scope list is provided	#
-#																	#
-#===================================================================#
+#===============================================================================#
+#										#
+#	notes: in-scope IP list should be line-delimited			#
+#	all beacons will be labelled out-of-scope until IPs are loaded		#
+#	loading a new IP list will overwrite all previously loaded IPs 		#
+#	reloading the script will require 'load_scope' to be run again		#
+#	this script assumes a single, accurate scope list is provided		#
+#										#
+#===============================================================================#
 
 # THIS SCRIPT ASSUMES AN ACCURATE AND CORRECTLY FORMATTED SCOPE LIST IS PROVIDED
 # DO NOT RELY SOLELY ON THIS SCRIPT TO DETERMINE IF A BEACON IS IN-SCOPE OR NOT
