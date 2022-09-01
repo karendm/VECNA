@@ -1,0 +1,99 @@
+#===================================#
+#									#
+#	scope check script				#
+#	author: karen miller			#
+#	date: august 31, 2022			#
+#									#
+#===================================#
+
+#===================================================================#
+#																	#
+#	usage: load this script into cobalt strike						#
+#	run 'load_scope /path/to/ips.txt' to load in-scope IPs			#
+#	run 'print_scope' to print list of IPs that are loaded			#
+#	beacons will be labelled/highlighted as they come in 			#
+#	out-of-scope beacons will be highlighted in red and labelled 	#
+#	in-scope beacons will be highlighted in green					#
+#																	#
+#===================================================================#
+
+#===================================================================#
+#																	#
+#	notes: in-scope IP list should be line-delimited				#
+#	all beacons will be labelled out-of-scope until IPs are loaded	#
+#	loading a new IP list will overwrite all previously loaded IPs 	#
+#	reloading the script will require 'load_scope' to be run again	#
+#	this script assumes a single, accurate scope list is provided	#
+#																	#
+#===================================================================#
+
+# THIS SCRIPT ASSUMES AN ACCURATE AND CORRECTLY FORMATTED SCOPE LIST IS PROVIDED
+# DO NOT RELY SOLELY ON THIS SCRIPT TO DETERMINE IF A BEACON IS IN-SCOPE OR NOT
+# THIS SCRIPT WILL NOT ADJUST LABELS/HIGHLIGHTS ON THE FLY - BEACONS ARE ONLY LABELLED ON INITIAL ENTRY
+
+
+command load_scope {
+
+	@scope = @();
+	local('$handle');
+
+	if ($1 eq $null || $1 eq "help" || $1 eq "-h" || $1 eq "--h") {
+
+		println("\c5 [!] Please provide a full path to a line-delimited scope file (e.g., 'load_scope /share/Working/ips.txt').");
+	
+	}
+
+	else {
+
+		$handle = openf($1);
+
+		if (checkError($error)) {
+			println("\c5 [!] Could not open file: $error");
+		}
+
+		@scope = readAll($handle);
+		closef($handle);
+
+		println("In-Scope IPs: ")
+		println(@scope);
+		println()
+		println("\cA [*] Total In-Scope IPs: " . size(@scope));
+		println("\c5 [!] Loading a new file overwrites all previously loaded IP addresses.");
+
+	}
+
+}
+
+
+command print_scope {
+
+	println("In-Scope IPs: ")
+	println(@scope);
+	println()
+	println("\cA [*] Total In-Scope IPs: " . size(@scope));
+
+}
+
+
+on beacon_initial {
+
+	@beac = @(bdata($1));
+	
+	$ip = beacon_data($1) ["internal"]; 
+
+	if (iff($ip in @scope,true,false)) {
+
+		push(@in, $1);
+		highlight("beacons", @beac, "good");
+
+	}
+
+	else {
+
+		push(@out, $1);
+		highlight("beacons", @beac, "bad");
+		bnote($1, "!!! OUT OF SCOPE !!!");
+
+	}
+
+}

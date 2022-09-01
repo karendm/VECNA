@@ -1,0 +1,60 @@
+#===================================#
+#									#
+#	host payloads script			#
+#	author: karen miller			#
+#									#
+#===================================#
+
+#===================================================================#
+#																	#
+#	usage: load this script into cobalt strike						#
+#	in script console run: host_payloads /full/path/to/payloads		#
+#																	#
+#===================================================================#
+
+
+command host_payloads {
+	local('$handle $data');
+
+	if ($1 eq $null || $1 eq "help" || $1 eq "-h" || $1 eq "--h") {
+		println("\c5 [!] Please provide a full path to the payloads directory (e.g., 'host_payloads /share/Working/payloads').");
+	}
+
+	else {
+
+		chdir($1);
+		@payloads = ls();
+
+		if (size(@payloads) > 0) {			
+
+			foreach $file (@payloads) {
+				
+				@path = split("/", $file);
+				$filename = @path[-1];
+
+				$uri = "/payloads/$filename";
+				$handle = openf($file);
+
+				if (checkError($error)) {
+					println("\c5 [!] Could not open file: $error");
+				}
+
+				$data = readb($handle, -1);
+				closef($handle);
+					
+				site_host("127.0.0.1", 443, $uri, $data, "", $file, true);
+
+				$success = "\c3 [+] $filename has been hosted!";
+				println($success);
+				
+			}
+
+		}
+
+		else {
+			println("\c5 [!] Files not found. Exiting...");
+		}
+
+	}
+
+}

