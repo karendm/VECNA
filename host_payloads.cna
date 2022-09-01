@@ -1,16 +1,16 @@
-#===================================#
-#									#
-#	host payloads script			#
-#	author: karen miller			#
-#									#
-#===================================#
+#=======================================#
+#					#
+#	host payloads script		#
+#	author: karen miller		#
+#					#
+#=======================================#
 
-#===================================================================#
-#																	#
-#	usage: load this script into cobalt strike						#
-#	in script console run: host_payloads /full/path/to/payloads		#
-#																	#
-#===================================================================#
+#=======================================================================#
+#									#
+#	usage: load this script into cobalt strike			#
+#	in script console run: host_payloads /full/path/to/payloads	#
+#									#
+#=======================================================================#
 
 
 command host_payloads {
