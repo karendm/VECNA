@@ -1,26 +1,26 @@
-#===================================#
-#									#
-#	initial beacon spawn script		#
-#	author: karen miller			#
-#	date: may 18, 2022				#
-#									#
-#===================================#
+#=======================================#
+#					#
+#	initial beacon spawn script	#
+#	author: karen miller		#
+#	date: may 18, 2022		#
+#					#
+#=======================================#
 
-#===================================================================#
-#																	#
-#	usage: load this script into cobalt strike						#
-#	spawns beacon if new session process is in plist				#
-#																	#
-#===================================================================#
+#===============================================================#
+#								#
+#	usage: load this script into cobalt strike		#
+#	spawns beacon if new session process is in plist	#
+#								#
+#===============================================================#
 
-#===================================================================#
-#																	#
-#	notes: add/remove process names in @plist based on use case		#
-#	replace 'https' with the name of listener used for spawning		#
-#	default spawn session process is rundll32.exe					#
-#	spawn session process can be modified in profile (spawnto)		#
-#																	#
-#===================================================================#
+#=======================================================================#
+#									#
+#	notes: add/remove process names in @plist based on use case	#
+#	replace 'https' with the name of listener used for spawning	#
+#	default spawn session process is rundll32.exe			#
+#	spawn session process can be modified in profile (spawnto)	#
+#									#
+#=======================================================================#
 
 
 on beacon_initial {
