@@ -1,17 +1,17 @@
-#===================================#
-#									#
-#	cred harvesting script			#
-#	author: karen miller			#
-#									#
-#===================================#
+#=======================================#
+#					#
+#	cred harvesting script		#
+#	author: karen miller		#
+#					#
+#=======================================#
 
-#===================================================================#
-#																	#
-#	usage: load this script into cobalt strike						#
+#=======================================================================#
+#									#
+#	usage: load this script into cobalt strike			#
 #	automatically adds incoming form data creds to cobalt strike	#
 #	in script console run: 'get_metrics' to see cred/session data	#
-#																	#
-#===================================================================#
+#									#
+#=======================================================================#
 
 # this script needs to be loaded at the start of the credential harvesting campaign in order to accurately gather credentials
 # if the script is only being used for the get_metrics command, then it can be loaded anytime
