@@ -42,7 +42,7 @@ command host_payloads {
 				$data = readb($handle, -1);
 				closef($handle);
 					
-				site_host("127.0.0.1", 443, $uri, $data, "", $file, true);
+				site_host("127.0.0.1", 443, $uri, $data, "automatic", $file, true);
 
 				$success = "\c3 [+] $filename has been hosted!";
 				println($success);
