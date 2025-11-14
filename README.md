@@ -1,5 +1,12 @@
 # VECNA
-The VECNA Toolkit includes Aggressor Scripts that can be loaded into Cobalt Strike during a penetration test to achieve a range of useful functions.
+<p align="center">
+<img src="vecna.png" width="400px">
+  <br>
+<i>The <b>VECNA</b> Toolkit includes Aggressor Scripts that can be loaded into Cobalt
+<br>
+Strike during a penetration test to achieve a range of useful functions.</i>
+</p>
+
 
 ## Credential Harvesting Script - cred_harvest.cna
 
